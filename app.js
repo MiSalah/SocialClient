@@ -26,16 +26,28 @@ const session = driver.session()
 app.get('/', function(req, res){
 
     session
-        .run("MATCH (n) RETURN n")
+        .run("MATCH (n:Person) RETURN n")
         .then(function(result) {
+
+            var persons = [];
+
             result.records.forEach(function(record){
-                console.log(record._fields[0]);
+                //console.log(record._fields[0]);
+            persons.push({
+                id: record._fields[0].identity.low,
+                name: record._fields[0].properties.lastname
+            });
+            
+            });
+
+            res.render('index',{
+                personsList : persons
             });
         })
         .catch(function(error){
             console.log(error);
         });
-    res.render('index');
+
 
 })
 app.listen(3000);

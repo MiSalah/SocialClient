@@ -9,9 +9,10 @@
   "dependencies": {
     "body-parser": "*",
     "cookie-parser": "*",
-    "express": "*",
     "ejs": "^3.1.6",
-    "morgan": "*"
+    "express": "*",
+    "morgan": "*",
+    "neo4j-driver": "*"
   },
   "author": "EL BAIDOURY",
   "license": "ISC"

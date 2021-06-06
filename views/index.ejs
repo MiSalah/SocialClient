@@ -25,7 +25,19 @@
 
 </form>
 
-<h3>Persons</h3>
+<h3>Add Birthplace</h3>
+<form method="POST" action="/person/born/add">  
+
+    <input type="text" name="firstname" placeholder="firstname">
+    <input type="text" name="lastname" placeholder="lastname">
+    <input type="text" name="city" placeholder="city">
+    <input type="text" name="country" placeholder="country">
+    <input type="text" name="year" placeholder="year">
+    <input type="submit" value="Submit">
+
+</form>
+
+<h3>People</h3>
 <ul>
 <% personsList.forEach(function(person){ %>
 

@@ -99,7 +99,7 @@ app.post('/location/add', function(req, res){
 
 });
 
-// Friends Connection route l
+// Friends Connection route 
 app.post('/friends/connect', function(req, res){
     
     
@@ -120,6 +120,30 @@ app.post('/friends/connect', function(req, res){
 
 });
 
+// Add Birthplace Route
+app.post('/person/born/add', function(req, res){
+    
+    
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var city = req.body.city;
+    var country = req.body.country;
+    var year = req.body.year;
+
+    session.run("MATCH (a:Person {firstname:$firstnameP, lastname:$lastnameP}),(l:location {city: $cityP, country: $countryP}) MERGE(a)-[r:BORN_IN {year: $yearP}]->(b) RETURN a,l",
+    { firstnameP: firstname , lastnameP :lastname, cityP: city, countryP: country, yearP: year })
+    
+        .then(function(result){
+            res.redirect('/');
+            //session.close();
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+        }
+        )
+
+});
 
 app.listen(3000);
 console.log('Server started on port 3000');

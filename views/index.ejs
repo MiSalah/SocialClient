@@ -6,11 +6,30 @@
 
 </form>
 
+
+<h3>Add new location</h3>
+<form method="POST" action="/location/add">  
+
+    <input type="text" name="city" placeholder="City">
+    <input type="text" name="country" placeholder="Country">
+    <input type="submit" value="Submit">
+
+</form>
+
 <h3>Persons</h3>
 <ul>
 <% personsList.forEach(function(person){ %>
 
-    <li><%= person.name %></li>
+    <li><%= person.lastname %> <%= person.firstname%></li>
+
+<% }) %>
+</ul>
+
+<h3>Locations</h3>
+<ul>
+<% locationList.forEach(function(location){ %>
+
+    <li><%= location.city %>, <%= location.country %></li>
 
 <% }) %>
 </ul>

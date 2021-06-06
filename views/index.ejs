@@ -1,7 +1,8 @@
 <h3>Add new person</h3>
 <form method="POST" action="/person/add">  
 
-    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="firstname" placeholder="firstname">
+    <input type="text" name="lastname" placeholder="lastname">
     <input type="submit" value="Submit">
 
 </form>
@@ -41,7 +42,7 @@
 <ul>
 <% personsList.forEach(function(person){ %>
 
-    <li><%= person.lastname %> <%= person.firstname%></li>
+    <li><a href="/person/<%= person.id %>"><%= person.lastname %> <%= person.firstname%></a></li>
 
 <% }) %>
 </ul>

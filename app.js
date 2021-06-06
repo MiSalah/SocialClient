@@ -64,10 +64,12 @@ app.get('/', function(req, res){
 // Add person route
 app.post('/person/add', function(req, res){
 
-    var name = req.body.name;
-    console.log(name);
+    var lastname = req.body.lastname;
+    var firstname = req.body.firstname;
+    console.log(lastname);
     
-    session.run("CREATE (a:Person {lastname: $nameParam}) RETURN a",{ nameParam: name })
+    session.run("CREATE (a:Person {firstname: $firstnameP, lastname: $lastnameP}) RETURN a",
+    { firstnameP: firstname, lastnameP: lastname})
         .then(function(result){
             res.redirect('/');
             //session.close();
@@ -91,11 +93,9 @@ app.post('/location/add', function(req, res){
             res.redirect('/');
             //session.close();
         })
-        .catch(function(error)
-        {
+        .catch(function(error){
             console.log(error);
-        }
-        )
+        })
 
 });
 
@@ -112,17 +112,13 @@ app.post('/friends/connect', function(req, res){
             res.redirect('/');
             //session.close();
         })
-        .catch(function(error)
-        {
+        .catch(function(error){
             console.log(error);
-        }
-        )
-
+        })
 });
 
 // Add Birthplace Route
 app.post('/person/born/add', function(req, res){
-    
     
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
@@ -130,19 +126,71 @@ app.post('/person/born/add', function(req, res){
     var country = req.body.country;
     var year = req.body.year;
 
-    session.run("MATCH (a:Person {firstname:$firstnameP, lastname:$lastnameP}),(l:location {city: $cityP, country: $countryP}) MERGE(a)-[r:BORN_IN {year: $yearP}]->(b) RETURN a,l",
+    session.run("MATCH (a:Person {firstname:$firstnameP, lastname:$lastnameP}),(l:location {city: $cityP, country: $countryP}) MERGE(a)-[r:BORN_IN {year: $yearP}]->(l) RETURN a,l",
     { firstnameP: firstname , lastnameP :lastname, cityP: city, countryP: country, yearP: year })
     
         .then(function(result){
             res.redirect('/');
             //session.close();
         })
-        .catch(function(error)
-        {
+        .catch(function(error){
             console.log(error);
-        }
-        )
+        })
 
+});
+
+// Person detail route
+
+app.get('/person/:id', function(req, res){
+
+    var id = req.params.id;
+    res.send(id);
+
+    session.run("MATCH(a:Person) WHERE id(a)=toInteger($idParam) RETURN a.lastname as lastname",
+    {idParam:id})
+    .then(function(result){
+
+        var lastname = result.records[0].get("lastname");
+
+        session.run("OPTIONAL MATCH (a:Person)-[r:BORN_IN]-(l:location) WHERE id(a)=toInteger($idParam) RETURN l.city as city, l.country. as country",
+        {idParam:id})
+        .then(function(result3){
+            var city = result3.records[0].get("city");
+            var country = result3.records[0].get("country");
+
+            session.run("OPTIONAL MATCH (a:Person)-[r:FRIENDS]-(b:Person) WHERE id(a)=toInteger($idParam) RETURN b",
+            {idParam: id} )
+            .then(function(result3){
+
+                var friendsList = [];
+
+                result3.forEach(function(record){
+
+                    if(record._fields[0] != null){
+
+                        friendsList.push({
+                            id : record._fields[0].identity.low,
+                            lastname: record._fields[0].properties.lastname,
+                            firstname: record._fields[0].properties.firstname
+                        });
+                    }
+                });
+
+                res.render('person',{
+                    id:id,
+                    lastname: lastname,
+                    firstname: firstname,
+                    city:city,
+                    country:country,
+                    friends : friendsList
+                });
+
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        });    
+    });
 });
 
 app.listen(3000);

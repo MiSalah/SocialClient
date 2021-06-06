@@ -16,6 +16,15 @@
 
 </form>
 
+<h3>Connect friends</h3>
+<form method="POST" action="/friends/connect">  
+
+    <input type="text" name="name1" placeholder="Name">
+    <input type="text" name="name2" placeholder="Name">
+    <input type="submit" value="Submit">
+
+</form>
+
 <h3>Persons</h3>
 <ul>
 <% personsList.forEach(function(person){ %>

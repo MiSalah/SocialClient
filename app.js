@@ -99,9 +99,29 @@ app.post('/location/add', function(req, res){
 
 });
 
+// Friends Connection route l
+app.post('/friends/connect', function(req, res){
+    
+    
+    var name1 = req.body.name1;
+    var name2 = req.body.name2;
+
+    session.run("MATCH (a:Person {lastname:$nameParam1}),(b:Person {lastname : $nameParam2}) MERGE(a)-[r:FRIENDS]->(b) RETURN a,b",{ nameParam1: name1 , nameParam2 :name2 })
+    
+        .then(function(result){
+            res.redirect('/');
+            //session.close();
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+        }
+        )
+
+});
+
+
 app.listen(3000);
-
-
 console.log('Server started on port 3000');
 
 module.exports = app;

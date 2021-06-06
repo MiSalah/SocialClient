@@ -18,8 +18,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'public')));
 
 
-const driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic("neo4j", "123456"))
-const session = driver.session()
+var driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic("neo4j", "123456"))
+var session = driver.session()
 
 
 // Home Route
@@ -50,6 +50,38 @@ app.get('/', function(req, res){
 
 
 })
+
+// Add person route
+app.post('/person/add', function(req, res){
+
+    var name = req.body.name;
+    console.log(name);
+    
+    session.run("CREATE (a:Person {lastname: $nameParam}) RETURN a",{ nameParam: name })
+        .then(function(result){
+            res.redirect('/');
+            //session.close();
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+        }
+        )
+
+   /* session
+        .run('CREATE (a:Person {lastname: $nameParam}) RETURN a',{ nameParam: name })
+        .then(function(result){
+            res.redirect('/');
+            session.close();
+        })
+        .catch(function(error){
+            console.log(error)
+        });
+*/
+
+
+})
+
 app.listen(3000);
 
 

@@ -205,14 +205,6 @@ app.get('/person/:id', function(req, res){
                     country: country,
                     friends : friendsList
                 }); 
-
-                console.log(id);
-                console.log(firstname);
-                console.log(lastname);
-                console.log(city);
-                console.log(country);
-                console.log(friendsList);
-
             })
             .catch(function(error){
                 console.log(error);

@@ -7,6 +7,15 @@
     <title>Persons details</title>
 </head>
 <body>
-    <%=lastname%>
+   fullname : <%=lastname%> <%=firstname%>
+   city :<%=city%>
+   country : <%=country%>
+   list of friends: 
+   <ul>
+    <% friends.forEach(function(person) { %>
+        <li><a href="/person/<%= person.id %>"><%=person.lastname %></a></li>
+   <% }); %>
+
+   </ul> 
 </body>
 </html>

@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<title>
+    Social Client  
+</title>
+
 <h3>Add new person</h3>
 <form method="POST" action="/person/add">  
 
@@ -22,6 +27,7 @@
 
     <input type="text" name="name1" placeholder="Name">
     <input type="text" name="name2" placeholder="Name">
+    <input type="date" name="date">
     <input type="submit" value="Submit">
 
 </form>
@@ -34,6 +40,18 @@
     <input type="text" name="city" placeholder="city">
     <input type="text" name="country" placeholder="country">
     <input type="text" name="year" placeholder="year">
+    <input type="submit" value="Submit">
+
+</form>
+
+<h3>Add living Place</h3>
+<form method="POST" action="/person/live/add">  
+
+    <input type="text" name="firstname" placeholder="firstname">
+    <input type="text" name="lastname" placeholder="lastname">
+    <input type="text" name="city" placeholder="city">
+    <input type="text" name="country" placeholder="country">
+    <input type="date" name="since" placeholder="since">
     <input type="submit" value="Submit">
 
 </form>

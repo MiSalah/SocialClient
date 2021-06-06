@@ -35,21 +35,31 @@ app.get('/', function(req, res){
                 //console.log(record._fields[0]);
             persons.push({
                 id: record._fields[0].identity.low,
-                name: record._fields[0].properties.lastname
-            });
-            
+                firstname: record._fields[0].properties.firstname,
+                lastname: record._fields[0].properties.lastname
+                 });
             });
 
-            res.render('index',{
-                personsList : persons
-            });
+            session.run("MATCH (l:location) RETURN l")
+                    .then(function(result2){
+
+                        var locations = [];
+                        result2.records.forEach(function(record){
+                            locations.push(record._fields[0].properties);
+                        });
+
+                        res.render('index',{
+                            personsList : persons,
+                            locationList : locations
+                        });
+                    })
+
+ 
         })
         .catch(function(error){
             console.log(error);
         });
-
-
-})
+});
 
 // Add person route
 app.post('/person/add', function(req, res){
@@ -62,25 +72,32 @@ app.post('/person/add', function(req, res){
             res.redirect('/');
             //session.close();
         })
+        .catch(function(error){
+            console.log(error);
+        })
+});
+
+// Add location route
+app.post('/location/add', function(req, res){
+    
+    
+    var city = req.body.city;
+    var country = req.body.country;
+
+    session.run("CREATE (l:location {city: $CityName, country: $CountryName}) RETURN l",{ CityName: city , CountryName :country })
+    //CREATE (u:User {userId: {u.userId}, email: {u.email}, ...}) RETURN u", {u: user})
+    //CREATE (l:location{city: 'Settat', country: 'Morocco'}) return l
+        .then(function(result){
+            res.redirect('/');
+            //session.close();
+        })
         .catch(function(error)
         {
             console.log(error);
         }
         )
 
-   /* session
-        .run('CREATE (a:Person {lastname: $nameParam}) RETURN a',{ nameParam: name })
-        .then(function(result){
-            res.redirect('/');
-            session.close();
-        })
-        .catch(function(error){
-            console.log(error)
-        });
-*/
-
-
-})
+});
 
 app.listen(3000);
 

@@ -102,7 +102,7 @@ app.post('/location/add', function(req, res){
 // Friends Connection route 
 app.post('/friends/connect', function(req, res){
     
-    
+    var id = req.body.id;
     var name1 = req.body.name1;
     var name2 = req.body.name2;
     var date = req.body.date;
@@ -110,7 +110,12 @@ app.post('/friends/connect', function(req, res){
     session.run("MATCH (a:Person {lastname:$nameParam1}),(b:Person {lastname : $nameParam2}) MERGE(a)-[r:FRIENDS {since: $dateP}]->(b) RETURN a,b",{ nameParam1: name1 , nameParam2 :name2 , dateP: date})
     
         .then(function(result){
-            res.redirect('/');
+            if(id && id != null){
+                res.redirect('/person/'+id);
+            } else {
+                res.redirect('/');
+            }
+        
             //session.close();
         })
         .catch(function(error){
@@ -121,6 +126,7 @@ app.post('/friends/connect', function(req, res){
 // Add Birthplace Route
 app.post('/person/born/add', function(req, res){
     
+    var id = req.body.id;
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var city = req.body.city;
@@ -131,8 +137,11 @@ app.post('/person/born/add', function(req, res){
     { firstnameP: firstname , lastnameP :lastname, cityP: city, countryP: country, yearP: year })
     
         .then(function(result){
-            res.redirect('/');
-            //session.close();
+            if(id && id != null){
+                res.redirect('/person/'+id);
+            } else {
+                res.redirect('/');
+            }
         })
         .catch(function(error){
             console.log(error);
@@ -166,7 +175,7 @@ app.post('/person/live/add', function(req, res){
 app.get('/person/:id', function(req, res){
 
     var id = req.params.id;
-
+    
     session.run("MATCH(a:Person) WHERE id(a)=toInteger($idParam) RETURN a.lastname as lastname , a.firstname as firstname",
     {idParam:id})
     .then(function(result){

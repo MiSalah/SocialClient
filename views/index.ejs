@@ -1,37 +1,88 @@
 <!DOCTYPE html>
-<title>
-    Social Client  
-</title>
+<html lang="en">
+<head>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
 
-<h3>Add new person</h3>
-<form method="POST" action="/person/add">  
+    <title>Social Client</title>
+</head>
+<body>
 
-    <input type="text" name="firstname" placeholder="firstname">
-    <input type="text" name="lastname" placeholder="lastname">
-    <input type="submit" value="Submit">
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+   
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+          </ul>
+        </header>
 
-</form>
+        <br></br>
+<a class="btn btn-primary" role="button" data-toggle="collapse" href="#addperson" aria-expanded="false" aria-controls="addperson">
+            Add new person
+</a>
+    
+<div class="collapse" id="addperson">
+    <div class="well">
+        <h3>Person form</h3>
+        <br></br>
+        <form method="POST" action="/person/add">  
 
+            <input type="text" name="firstname" placeholder="firstname">
+            <input type="text" name="lastname" placeholder="lastname">
+            <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+        
+        </form>
+    </div>
+</div>
 
+<a class="btn btn-primary" role="button" data-toggle="collapse" href="#addlocation" aria-expanded="false" aria-controls="addlocation">
+    Add new location
+</a>
+
+<div class="collapse" id="addlocation">
+    <div class="well">
 <h3>Add new location</h3>
 <form method="POST" action="/location/add">  
 
     <input type="text" name="city" placeholder="City">
     <input type="text" name="country" placeholder="Country">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
 
 </form>
+</div>
+</div>
 
+<a class="btn btn-primary" role="button" data-toggle="collapse" href="#connectFriends" aria-expanded="false" aria-controls="connectFriends">
+    Connect friends
+</a>
+
+<div class="collapse" id="connectFriends">
+    <div class="well">
 <h3>Connect friends</h3>
 <form method="POST" action="/friends/connect">  
 
     <input type="text" name="name1" placeholder="Name">
     <input type="text" name="name2" placeholder="Name">
     <input type="date" name="date">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
 
 </form>
+</div>
+</div>
 
+<a class="btn btn-primary" role="button" data-toggle="collapse" href="#addBirthplace" aria-expanded="false" aria-controls="addBirthplace">
+    Add Birthplace
+</a>
+
+<div class="collapse" id="addBirthplace">
+    <div class="well">
 <h3>Add Birthplace</h3>
 <form method="POST" action="/person/born/add">  
 
@@ -40,10 +91,18 @@
     <input type="text" name="city" placeholder="city">
     <input type="text" name="country" placeholder="country">
     <input type="text" name="year" placeholder="year">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
 
 </form>
+</div>
+</div>
 
+<a class="btn btn-primary" role="button" data-toggle="collapse" href="#addlivingPlace" aria-expanded="false" aria-controls="addlivingPlace">
+    Add living Place
+</a>
+
+<div class="collapse" id="addlivingPlace">
+    <div class="well">
 <h3>Add living Place</h3>
 <form method="POST" action="/person/live/add">  
 
@@ -52,24 +111,34 @@
     <input type="text" name="city" placeholder="city">
     <input type="text" name="country" placeholder="country">
     <input type="date" name="since" placeholder="since">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
 
 </form>
+</div>
+</div>
 
 <h3>People</h3>
-<ul>
+<div class="row">
 <% personsList.forEach(function(person){ %>
 
-    <li><a href="/person/<%= person.id %>"><%= person.lastname %> <%= person.firstname%></a></li>
-
+    <div class="col-md-2">
+         <div class="well"><i class="fa fa-user"></i><a href="/person/<%= person.id %>">        <%= person.lastname %> <%= person.firstname%></a></div>
+    </div>
 <% }) %>
-</ul>
+</div>
 
 <h3>Locations</h3>
-<ul>
+<div class="row">
 <% locationList.forEach(function(location){ %>
 
-    <li><%= location.city %>, <%= location.country %></li>
-
+    <div class="col-md-2">
+    <div class="well well-lg">
+       <i class="fa fa-map-marker"></i> <%= location.city %>, <%= location.country %></div>
+    </div>
 <% }) %>
-</ul>
+</div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

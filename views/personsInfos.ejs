@@ -4,18 +4,57 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <title>Persons details</title>
 </head>
 <body>
-   fullname : <%=lastname%> <%=firstname%>
-   city :<%=city%>
-   country : <%=country%>
-   list of friends: 
-   <ul>
+    <div class="container">  
+   <a href="/">Back</a>
+
+   <h1><i class="fa fa-user"></i>  <%=lastname%> <%=firstname%></h1>
+    
+ 
+    <h4><i class='fa fa-map-marker'></i> <%=city%>, <%=country%></h4>
+  
+
+ 
+         <ul class="list-group">
     <% friends.forEach(function(person) { %>
-        <li><a href="/person/<%= person.id %>"><%=person.lastname %></a></li>
+        <li class="list-group-item"><a href="/person/<%= person.id %>"> <%=person.firstname %>  <%=person.lastname %></a></li>
    <% }); %>
 
-   </ul> 
+        </ul> 
+ 
+    <div>
+        <h3>Connect friends</h3>
+    <form method="POST" action="/friends/connect">  
+    
+    <input type="hidden" name="id" value="<%=id%>">
+    <input type="hidden" name="name1" value="<%=lastname%>">
+    <input type="text" name="name2" placeholder="lastname">
+    <input type="date" name="date">
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+
+    </form>
+    </div>
+<br>
+    <div>
+        <h3>Add Birthplace</h3>
+        <form method="POST" action="/person/born/add">  
+            <input type="hidden" name="id" value="<%=id%>" >
+            <input type="hidden" name="firstname" value="<%=firstname %>">
+            <input type="hidden" name="lastname" value="<%=lastname %>">
+            <input type="text" name="city" placeholder="city">
+            <input type="text" name="country" placeholder="country">
+            <input type="text" name="year" placeholder="year">
+            <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+        
+        </form>
+    </div>
+    </div>
+   <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="undefined" crossorigin="anonymous"></script>
 </body>
 </html>
